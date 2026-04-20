@@ -105,11 +105,11 @@ int main(){
     vector<vector<double>> dataset = read_csv("insurance.csv");
     vector<double> scores=evaluate(dataset,10);
     for(int i=0;i<scores.size();i++){
-        cout << "╣з" << i+1 << "уш RMSE: " << scores[i] << endl;
+    cout << "Fold " << i+1 << " RMSE: " << scores[i] << endl;
     }
     double sum = 0;
-    for(int i=0;i<scores.size();i++) sum+=scores[i]; 
-    cout << "ф╫╬Ы RMSE: " << sum / scores.size() << endl;
+    for(int i=0;i<scores.size();i++) sum += scores[i];
+    cout << "Average RMSE: " << sum / scores.size() << endl;
     cin.get();
     cin.get();
     return 0;
