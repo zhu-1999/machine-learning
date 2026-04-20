@@ -73,9 +73,9 @@ vector<vector<vector<double>>> k_fold_split(vector<vector<double>> dataset, int 
     int n=dataset.size()/k;
     vector<vector<vector<double>>> folds(k);
     for(int i=0;i<k;i++){
-        int star=i*n,end=(i+1)*n-1;
+        int start=i*n,end=(i+1)*n-1;
         if(i==k-1) end=dataset.size()-1;
-        for(int j=star;j<=end;j++) folds[i].push_back(dataset[j]);
+        for(int j=start;j<=end;j++) folds[i].push_back(dataset[j]);
     }
     return folds;
 }
