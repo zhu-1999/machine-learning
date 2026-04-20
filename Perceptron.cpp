@@ -51,8 +51,8 @@ vector<double> train_sgd(vector<vector<double>>& train,double learning_rate,int 
         for(int j=0;j<train.size();j++){
             double y_true=train[j][n-1],z=b[0],error,y_pred;
             for(int k=0;k<n-1;k++) z+=b[k+1]*train[j][k];
-            y_pred=1.0/(1.0+exp(-z));
-            error=(y_pred-y_true)*y_pred*(1-y_pred);
+            y_pred = (z >= 0) ? 1.0 : 0.0;
+            error=(y_pred-y_true);
             b[0]-=learning_rate*error;
             for(int k=0;k<n-1;k++) b[k+1]-=learning_rate*error*train[j][k];
         }
@@ -64,10 +64,8 @@ double test_predict(vector<vector<double>>& test, vector<double>& b){
     for (int i = 0; i < test.size(); i++){
         double z = b[0];
         for (int j = 0; j < b.size() - 1; j++) z += b[j + 1] * test[i][j];
-        double y_pred = 1.0 / (1.0 + exp(-z));
-        double y_true = test[i][b.size() - 1];
-        int pred_class = round(y_pred); 
-        int true_class = round(y_true); 
+        int pred_class = (z >= 0) ? 1 : 0;
+        int true_class = round(test[i][b.size() - 1]);
         if (pred_class == true_class) right++;
     }
     return (double)right / test.size();
@@ -101,9 +99,9 @@ vector<double> evaluate(vector<vector<double>>& dataset, int k,double learning_r
 }
 int main(){
     srand(time(0)); 
-    vector<vector<double>> dataset = read_csv("Pima.csv");
+    vector<vector<double>> dataset = read_csv("sonar.csv");
     normalize(dataset);
-    vector<double> scores=evaluate(dataset,5,0.1,100);
+    vector<double> scores=evaluate(dataset,3,0.01,500);
     for(int i=0;i<scores.size();i++){
     cout << "Fold " << i+1 << " score: " << scores[i] <<'%'<< endl;
     }
